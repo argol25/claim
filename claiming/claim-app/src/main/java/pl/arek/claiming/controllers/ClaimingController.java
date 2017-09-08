@@ -31,6 +31,7 @@ public class ClaimingController {
 			ClaimData cd = new ClaimData();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			
+			
 			try{
 				cd.setStartTime(sdf.parse(claimDto.getStartTime()));
 				cd.setEndTime(sdf.parse(claimDto.getEndTime()));
@@ -44,14 +45,9 @@ public class ClaimingController {
 			cd.setSb1Day(claimDto.getSb1Day());
 			cd.setSb2Day(claimDto.getSb2Day());
 			
-			//wstawić tutaj wyliczenie pozostałych danych dla modelu ClaimData
-			/*
-			 * powiązać model ClaimData z metodą DataProcessing
-			 * metodę DataProcessing z kolei powiązać z modelem i kolekcją, która uzupełni wymagane rezultaty
-			 */
+			DataProcessing dp = new DataProcessing(cd.getStartTime().toString(), cd.getEndTime().toString(), cd.getStartHour(), cd.getEndHour(), cd.getSb1Day(), cd.getSb2Day(), cd.getAccountName()); 
 			
-			
-			return "/claimdata";
+			return "/claimresults";
 		}
 		
 		

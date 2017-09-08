@@ -9,6 +9,9 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Minutes;
 
+import pl.arek.claiming.domain.ResultData;
+import pl.arek.claiming.ResultDAO;
+
 public class DataProcessing {
 	
 	//łączna liczba nadgodzin
@@ -73,6 +76,12 @@ public class DataProcessing {
 	//kod danego klienta
 	String cCode = null;
 	
+	//tworzę instancję modelu ResultData
+	ResultData rd = new ResultData();
+	
+	//tworzę instancję repozytorium ResultDAO
+	ResultDAO resDAO = new ResultDAO();
+	
 	public DataProcessing(String otd, String oed, String ost, String oet, String s1d, String s2d, String aN){
 		otStartDate = otd;
 		otEndDate = oed;
@@ -134,9 +143,7 @@ public class DataProcessing {
 		
 	}
 	
-	void claimDataCount(){
-		
-		
+	public void claimDataCount(){
 		
 		//ile jest w sumie minut różnicy pomiędzy podanymi datami
 		int minDiff = 0;
@@ -147,7 +154,6 @@ public class DataProcessing {
 		
 		minDiff = Minutes.minutesBetween(dtStartDate, dtEndDate).getMinutes();
 		otAmountInSummary = (float)minDiff / 60;
-		System.out.println("Całkowita liczba nadgodzin wynosi: " + otAmountInSummary);
 		
 		if(dayDifference == 0){
 			
@@ -176,6 +182,22 @@ public class DataProcessing {
 					//ses3 jest równe różnicy ilości standby'a i godziny rozpoczęcia OT 
 					ses30 = Float.parseFloat(sb1Day) - fMinDiff0;
 					seot0 = otAmountInSummary - ses30;
+				}
+				
+				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT ses3
+				if(ses30 > 0){
+					rd.setWBS(cCode);
+					rd.setOtype("SES3");
+					establishAndSetWeekday(ses30,day1Name);
+					resDAO.addResultData(rd);
+				}
+				
+				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT seot
+				if(seot0 > 0){
+					rd.setWBS(cCode);
+					rd.setOtype("SEOT");
+					establishAndSetWeekday(seot0,day1Name);
+					resDAO.addResultData(rd);
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -238,9 +260,53 @@ public class DataProcessing {
 				//podaje który to jest dzień tygodnia jako klucz i pobiera nazwę dnia z kolekcji weekdayNames
 				dayOfWeekNo1 = dtEndDate.getDayOfWeek();
 				day2Name = weekdayNames.get(dayOfWeekNo1);
+				
+				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT ses3 dla 1 dnia
+				if(ses30 > 0){
+					rd.setWBS(cCode);
+					rd.setOtype("SES3");
+					establishAndSetWeekday(ses30,day1Name);
+					resDAO.addResultData(rd);
+				}
+				
+				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT seot dla 1 dnia
+				if(seot0 > 0){
+					rd.setWBS(cCode);
+					rd.setOtype("SEOT");
+					establishAndSetWeekday(seot0,day1Name);
+					resDAO.addResultData(rd);
+				}
+				
+				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT ses3 dla 2 dnia
+				if(ses31 > 0){
+					rd.setWBS(cCode);
+					rd.setOtype("SES3");
+					establishAndSetWeekday(ses31,day2Name);
+					resDAO.addResultData(rd);
+				}
+				
+				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT seot dla 2 dnia
+				if(seot1 > 0){
+					rd.setWBS(cCode);
+					rd.setOtype("SEOT");
+					establishAndSetWeekday(seot1,day2Name);
+					resDAO.addResultData(rd);
+				}
+				
 			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	//metoda wstawiające odpowidnią liczbę godzin dla danego dnia wystąpienia OT
+	void establishAndSetWeekday(float ot, String dName){
+		if(dName.equals("Mon")) rd.setMon(ot);
+		else if(dName.equals("Tue")) rd.setTue(ot);
+		else if(dName.equals("Wen")) rd.setWen(ot);
+		else if(dName.equals("Tue")) rd.setTue(ot);
+		else if(dName.equals("Fri")) rd.setFri(ot);
+		else if(dName.equals("Sat")) rd.setSat(ot);
+		else if(dName.equals("Sun")) rd.setSun(ot);
 	}
 }
