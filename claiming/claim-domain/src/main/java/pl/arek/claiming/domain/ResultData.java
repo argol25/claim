@@ -9,7 +9,6 @@ public class ResultData {
 	public ResultData() {
 		WBSel = null;
 		OType = null;
-		
 		sat = null;
 		sun = null;
 		mon = null;
@@ -19,19 +18,19 @@ public class ResultData {
 		fri = null;
 	}
 	
-	public void setWBS(String wbs){
+	public void setWBSel(String wbs){
 		this.WBSel = wbs;
 	}
 	
-	public String getWBS(){
+	public String getWBSel(){
 		return WBSel;		
 	}
 	
-	public void setOtype(String ot){
+	public void setOType(String ot){
 		this.OType = ot;
 	}
 	
-	public String getOtype(){
+	public String getOType(){
 		return OType;
 	}
 	
@@ -39,7 +38,7 @@ public class ResultData {
 		this.mon = mo;
 	}
 	
-	public float getMon(){
+	public Float getMon(){
 		return mon;
 	}
 	
@@ -47,7 +46,7 @@ public class ResultData {
 		this.tue = tu;
 	}
 	
-	public float getTue(){
+	public Float getTue(){
 		return tue;
 	}
 	
@@ -55,7 +54,7 @@ public class ResultData {
 		this.wen = we;
 	}
 	
-	public float getWen(){
+	public Float getWen(){
 		return wen;
 	}
 	
@@ -63,7 +62,7 @@ public class ResultData {
 		this.thu = th;
 	}
 	
-	public float getThu(){
+	public Float getThu(){
 		return thu;
 	}
 	
@@ -71,7 +70,7 @@ public class ResultData {
 		this.fri = fr;
 	}
 	
-	public float getFri(){
+	public Float getFri(){
 		return fri;
 	}
 	
@@ -79,7 +78,7 @@ public class ResultData {
 		this.sat = st;
 	}
 	
-	public float getSat(){
+	public Float getSat(){
 		return sat;
 	}
 	
@@ -87,7 +86,7 @@ public class ResultData {
 		this.sun = su;
 	}
 	
-	public float getSun(){
+	public Float getSun(){
 		return sun;
 	}
 	

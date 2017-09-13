@@ -2,16 +2,19 @@ package pl.arek.claiming;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Minutes;
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.arek.claiming.domain.ResultData;
-import pl.arek.claiming.ResultDAO;
+//import pl.arek.claiming.ResultDAO;
+
 
 
 public class DataProcessing {
@@ -83,8 +86,11 @@ public class DataProcessing {
 	
 	//tworzę instancję repozytorium ResultDAO
 	//ResultDAO resDAO = new ResultDAO();
-	@Autowired
-	ResultDAO rdao;
+	
+	//ResultDAO rdao;
+	
+	//kolekcja obiektów ResultData
+	List<ResultData> resDataObj = new ArrayList<>();
 	
 	
 	public DataProcessing(String otd, String oed, String ost, String oet, String s1d, String s2d, String aN){
@@ -148,7 +154,7 @@ public class DataProcessing {
 		
 	}
 	
-	public void claimDataCount(){
+	public List<ResultData> claimDataCount(){
 		
 		//ile jest w sumie minut różnicy pomiędzy podanymi datami
 		int minDiff = 0;
@@ -164,7 +170,6 @@ public class DataProcessing {
 			
 			try{
 				
-				System.out.println("Różnica dni wynosi 0 dni");
 				//data referencyjna potrzebna do wyliczeń yyyy/MM/dd 00:00
 				String sRefDate = otStartDate + " 00:00";
 				Date sdRefDate = format.parse(sRefDate);
@@ -178,7 +183,6 @@ public class DataProcessing {
 				//podaje który to jest dzień tygodnia jako klucz i pobiera nazwę dnia z kolekcji weekdayNames
 				dayOfWeekNo0 = dtStartDate.getDayOfWeek();
 				day1Name = weekdayNames.get(dayOfWeekNo0);
-				System.out.println("Wyznaczam, który to dzień tygodnia. " + day1Name );
 				
 				iMinDiff0 = Minutes.minutesBetween(sddRefDate, dtStartDate).getMinutes();
 				fMinDiff0 = (float)iMinDiff0 / 60;
@@ -198,28 +202,19 @@ public class DataProcessing {
 					ResultData rd = new ResultData();
 					
 					System.out.println("Dodaję do instancji ses30");
-					rd.setWBS(cCode);
-					rd.setOtype("SES3");
+					rd.setWBSel(cCode);
+					rd.setOType("SES3");
 					establishAndSetWeekday(ses30,day1Name,rd);
-					rdao.addResultData(rd);
+					resDataObj.add(rd);
 				}
 				
 				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT seot
 				if(seot0 > 0){
 					ResultData rd = new ResultData();
-					System.out.println("Dodaję do instancji sesot0. Dodaję WBS.");
-					rd.setWBS(cCode);
-					System.out.println("WBS to: " + rd.getWBS());
-					System.out.println("Dodaję do instancji sesot0. Dodaję typ OT.");
-					rd.setOtype("SEOT");
-					System.out.println("WBS to: " + rd.getOtype());
-					System.out.println("Dodaję do instancji sesot0. Ustalam jaki dzień i dodaję odpowiednią liczbę godzin.");
+					rd.setWBSel(cCode);
+					rd.setOType("SEOT");
 					establishAndSetWeekday(seot0,day1Name,rd);
-					System.out.println("WBS to: " + rd.getWen());
-					System.out.println("Dodaję do instancji sesot0. Dodaję dane całego obietku to kolekcji ResultData.");
-					
-					rdao.addResultData(rd);
-					rdao.getClaim();
+					resDataObj.add(rd);
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -286,43 +281,45 @@ public class DataProcessing {
 				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT ses3 dla 1 dnia
 				if(ses30 > 0){
 					ResultData rd = new ResultData();
-					rd.setWBS(cCode);
-					rd.setOtype("SES3");
+					rd.setWBSel(cCode);
+					rd.setOType("SES3");
 					establishAndSetWeekday(ses30,day1Name,rd);
-					rdao.addResultData(rd);
+					resDataObj.add(rd);
 				}
 				
 				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT seot dla 1 dnia
 				if(seot0 > 0){
 					ResultData rd = new ResultData();
-					rd.setWBS(cCode);
-					rd.setOtype("SEOT");
+					rd.setWBSel(cCode);
+					rd.setOType("SEOT");
 					establishAndSetWeekday(seot0,day1Name,rd);
-					rdao.addResultData(rd);
+					resDataObj.add(rd);
 				}
 				
 				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT ses3 dla 2 dnia
 				if(ses31 > 0){
 					ResultData rd = new ResultData();
-					rd.setWBS(cCode);
-					rd.setOtype("SES3");
+					rd.setWBSel(cCode);
+					rd.setOType("SES3");
 					establishAndSetWeekday(ses31,day2Name, rd);
-					rdao.addResultData(rd);
+					resDataObj.add(rd);
 				}
 				
 				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT seot dla 2 dnia
 				if(seot1 > 0){
 					ResultData rd = new ResultData();
-					rd.setWBS(cCode);
-					rd.setOtype("SEOT");
+					rd.setWBSel(cCode);
+					rd.setOType("SEOT");
 					establishAndSetWeekday(seot1,day2Name,rd);
-					rdao.addResultData(rd);
+					resDataObj.add(rd);
 				}
 				
 			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}
+		
+		return resDataObj;
 	}
 	
 	//metoda wstawiające odpowidnią liczbę godzin dla danego dnia wystąpienia OT

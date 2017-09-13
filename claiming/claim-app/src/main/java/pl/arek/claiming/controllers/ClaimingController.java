@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.ui.Model;
 
 
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.arek.claiming.ClaimDAO;
 import pl.arek.claiming.ResultDAO;
 import pl.arek.claiming.domain.ClaimData;
+import pl.arek.claiming.domain.ResultData;
 import pl.arek.claiming.dto.ClaimDataDTO;
 import pl.arek.claiming.DataProcessing;
 
@@ -50,26 +52,27 @@ public class ClaimingController {
 			cd.setSb1Day(claimDto.getSb1Day());
 			cd.setSb2Day(claimDto.getSb2Day());
 			
-			//do skasowania
-			cdao.addBasicData(cd);
-			//do skasowania
-			cdao.getClaiming();
-			
 			//DataProcessing dp = new DataProcessing(cd.getStartTime().toString(), cd.getEndTime().toString(), cd.getStartHour(), cd.getEndHour(), cd.getSb1Day(), cd.getSb2Day(), cd.getAccountName()); 
 			DataProcessing dp = new DataProcessing(claimDto.getStartTime(),claimDto.getEndTime(),claimDto.getStHour(), claimDto.getEndHour(), claimDto.getSb1Day(), claimDto.getSb2Day(), claimDto.getAccountName());
-			dp.claimDataCount();
 			
-			
+			for(ResultData rd : dp.claimDataCount()){
+				rdao.addResultData(rd);
+			}
 			
 			return "claimdata";
 		}
 		
-		
 		return "/claimdata";
 	}
 	
-	@RequestMapping("/claimresults")
+	/*@RequestMapping("/claimresults")
 	public String claimList(Model model){
+		model.addAttribute("resData", rdao.getClaim());
+		return "claimresults";
+	}*/
+	
+	@RequestMapping("/claimresults")
+	public String showClaimData(Model model){
 		model.addAttribute("resData", rdao.getClaim());
 		return "claimresults";
 	}
