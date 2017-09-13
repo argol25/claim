@@ -18,6 +18,19 @@ public class ClaimDAO {
 		clData.add(data);
 	}
 	
+	public List<ClaimData> getClaiming(){
+		System.out.println("Zawartość tabeli ClaimData");
+		if(clData.isEmpty()) System.out.println("TabelaClaimDAO jest pusta");
+		else{
+			System.out.println("Tabela ClaimData nie jest pusta");
+			for(ClaimData cl : clData){
+				System.out.println(cl.getEndHour());
+			}
+				
+		}
+		return clData;
+	}
+	
 	
 	
 	

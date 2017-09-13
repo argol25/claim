@@ -6,17 +6,12 @@
 		<artifactId>claiming</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>claim-application</artifactId>
+	<artifactId>claim-appl</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>pl.arek</groupId>
 			<artifactId>claim-domain</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>pl.kobietydokodu</groupId>
-			<artifactId>koty-domain</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
@@ -32,4 +27,5 @@
 		    <version>4.3.9.RELEASE</version>
 		</dependency>
 	</dependencies>
+	
 </project>

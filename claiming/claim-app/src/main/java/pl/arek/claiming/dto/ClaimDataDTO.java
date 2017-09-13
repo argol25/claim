@@ -1,6 +1,6 @@
 package pl.arek.claiming.dto;
 
-import java.util.Date;
+//import java.util.Date;
 
 import javax.validation.constraints.Pattern;
 
@@ -56,6 +56,23 @@ public class ClaimDataDTO {
 		public String getEndTime(){
 			return endTime;
 		}
+		
+		public void setStHour(String stH){
+			this.stHour = stH;
+		}
+		
+		public String getStHour(){
+			return stHour;
+		}
+		
+		public void setEndHour(String endH){
+			this.endHour = endH;
+		}
+		
+		public String getEndHour(){
+			return endHour;
+		}
+		
 		
 		public void setAccountName(String aName){
 			this.accountName = aName;

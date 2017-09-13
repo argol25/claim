@@ -11,4 +11,13 @@
   	<module>claim-appl</module>
   	<module>claim-app</module>
   </modules>
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>pl.arek</groupId>
+  			<artifactId>claim-appl</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
 </project>

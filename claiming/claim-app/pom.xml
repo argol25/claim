@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>claim-webapp</artifactId>
+  <artifactId>claim-app</artifactId>
   <packaging>war</packaging>
   <name>ClaimWebApp</name>
   <parent>
@@ -8,13 +8,7 @@
   	<artifactId>claiming</artifactId>
   	<version>0.0.1-SNAPSHOT</version>
   </parent>
-  <dependencies>
-  
-		<dependency>
-			<groupId>pl.arek</groupId>
-			<artifactId>claim-application</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>  	
+  <dependencies>		
   		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
@@ -49,6 +43,10 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>pl.arek</groupId>
+			<artifactId>claim-appl</artifactId>
 		</dependency>
   </dependencies>
   
