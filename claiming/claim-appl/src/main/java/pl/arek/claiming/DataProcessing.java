@@ -20,7 +20,7 @@ import pl.arek.claiming.domain.ResultData;
 public class DataProcessing {
 	
 	//łączna liczba nadgodzin
-	float otAmountInSummary = 0;
+	double otAmountInSummary = 0;
 	
 	//nazwy dni w formacie Mon, Tue...
 	String day1Name;
@@ -65,12 +65,12 @@ public class DataProcessing {
 	DateTime ddtEndDate;
 	
 	//czasy ses3 i  seot
-	float ses30 = 0.00f;
-	float seot0 = 0.00f;
+	double ses30 = 0.00f;
+	double seot0 = 0.00f;
 	
 	//dodatkowe zmienne w przypadku różnicy dnia, żeby policzyć OT dla obu dni 
-	float ses31 = 0.00f;
-	float seot1 = 0.00f;
+	double ses31 = 0.00f;
+	double seot1 = 0.00f;
 	
 	//kolekcja z nazwami dni
 	final HashMap<Integer,String> weekdayNames = new HashMap<>();
@@ -92,12 +92,20 @@ public class DataProcessing {
 	//kolekcja obiektów ResultData
 	List<ResultData> resDataObj = new ArrayList<>();
 	
+	double oneMin = 0.017;
+	
 	
 	public DataProcessing(String otd, String oed, String ost, String oet, String s1d, String s2d, String aN){
 		otStartDate = otd;
 		otEndDate = oed;
 		otStartTime = ost;
-		otEndTime = oet;
+		
+		//zmniejsza godzinę końcową 00:00, żeby nie spowodować błędów w wyliczeniach 
+		if(oet.equals("00:00")){
+			otEndTime = "23:59";
+			oet = "23:59";
+		}else otEndTime = oet;
+		
 		sb1Day = s1d;
 		sb2Day = s2d;
 		
@@ -164,7 +172,7 @@ public class DataProcessing {
 		int dayOfWeekNo1 = 0;
 		
 		minDiff = Minutes.minutesBetween(dtStartDate, dtEndDate).getMinutes();
-		otAmountInSummary = (float)minDiff / 60;
+		otAmountInSummary = (double)minDiff / 60;
 		
 		if(dayDifference == 0){
 			
@@ -177,7 +185,7 @@ public class DataProcessing {
 				
 				//różnica minut między północą a czasem startu
 				int iMinDiff0 = 0;
-				float fMinDiff0 = 0;
+				double fMinDiff0 = 0;
 				
 				
 				//podaje który to jest dzień tygodnia jako klucz i pobiera nazwę dnia z kolekcji weekdayNames
@@ -185,7 +193,7 @@ public class DataProcessing {
 				day1Name = weekdayNames.get(dayOfWeekNo0);
 				
 				iMinDiff0 = Minutes.minutesBetween(sddRefDate, dtStartDate).getMinutes();
-				fMinDiff0 = (float)iMinDiff0 / 60;
+				fMinDiff0 = (double)iMinDiff0 / 60;
 				
 				if(Float.parseFloat(sb1Day) < fMinDiff0){
 					//jako, że godzina rozpoczęcia OT to czas już poza ramami stanby'a, liczymy tylko SEOT
@@ -200,8 +208,7 @@ public class DataProcessing {
 				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT ses3
 				if(ses30 > 0){
 					ResultData rd = new ResultData();
-					
-					System.out.println("Dodaję do instancji ses30");
+										
 					rd.setWBSel(cCode);
 					rd.setOType("SES3");
 					establishAndSetWeekday(ses30,day1Name,rd);
@@ -210,6 +217,9 @@ public class DataProcessing {
 				
 				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT seot
 				if(seot0 > 0){
+					//dodaję jeszcze minutę w przypadku kiedy godzina zakończenia to 00:00
+					if(otEndTime.equals("23:59")) seot0 = (seot0 + oneMin);
+					
 					ResultData rd = new ResultData();
 					rd.setWBSel(cCode);
 					rd.setOType("SEOT");
@@ -230,17 +240,17 @@ public class DataProcessing {
 				
 				//różnica minut między północą na koniec pierwszego dnia a czasem startu
 				int iMinDiff0 = 0;
-				float fMinDiff0 = 0;
+				double fMinDiff0 = 0;
 				
 				//czas referejcyjny symbolizujący ilość godzin w ciągu doby
-				final float dayHoursAmount = 24;
+				final double dayHoursAmount = 24;
 				
 				//zmienna pozwalająca wyliczyć ile nadgodzin znajduje się w godzinach standby'a
-				float sbHtoMidnight = 0;
+				double sbHtoMidnight = 0;
 				
-				//zmienna referencyjna zawierająca liczbę zaplanowanych godzin stanby'a w postaci float
-				float sb1DayRef = Float.parseFloat(sb1Day);
-				float sb2DayRef = Float.parseFloat(sb2Day);
+				//zmienna referencyjna zawierająca liczbę zaplanowanych godzin stanby'a w postaci double
+				double sb1DayRef = Float.parseFloat(sb1Day);
+				double sb2DayRef = Float.parseFloat(sb2Day);
 				
 				//podaje który to jest dzień tygodnia jako klucz i pobiera nazwę dnia z kolekcji weekdayNames
 				dayOfWeekNo0 = dtStartDate.getDayOfWeek();
@@ -249,7 +259,7 @@ public class DataProcessing {
 				iMinDiff0 = Minutes.minutesBetween(dtStartDate, sddRefDate).getMinutes();
 				//dodaję brakującą minutę do północy
 				iMinDiff0 = iMinDiff0 + 1;
-				fMinDiff0 = (float)iMinDiff0 / 60;
+				fMinDiff0 = (double)iMinDiff0 / 60;
 								
 				sbHtoMidnight = dayHoursAmount - fMinDiff0;
 								
@@ -263,7 +273,7 @@ public class DataProcessing {
 				}
 				
 				//ilość nadgodzin drugiego dnia
-				float day2OT = 0;
+				double day2OT = 0;
 				
 				day2OT = otAmountInSummary - (ses30 + seot0);
 				
@@ -289,6 +299,9 @@ public class DataProcessing {
 				
 				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT seot dla 1 dnia
 				if(seot0 > 0){
+					//dodaję jeszcze minutę w przypadku kiedy godzina zakończenia to 00:00
+					if(otEndTime.equals("23:59")) seot0 = (seot0 + oneMin);
+					
 					ResultData rd = new ResultData();
 					rd.setWBSel(cCode);
 					rd.setOType("SEOT");
@@ -307,6 +320,9 @@ public class DataProcessing {
 				
 				//uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT seot dla 2 dnia
 				if(seot1 > 0){
+					//dodaję jeszcze minutę w przypadku kiedy godzina zakończenia to 00:00
+					if(otEndTime.equals("23:59")) seot0 = (seot0 + oneMin);
+					
 					ResultData rd = new ResultData();
 					rd.setWBSel(cCode);
 					rd.setOType("SEOT");
@@ -323,13 +339,13 @@ public class DataProcessing {
 	}
 	
 	//metoda wstawiające odpowidnią liczbę godzin dla danego dnia wystąpienia OT
-	void establishAndSetWeekday(float ot, String dName, ResultData rd){
-		if(dName.equals("Mon")) rd.setMon(ot);
-		else if(dName.equals("Tue")) rd.setTue(ot);
-		else if(dName.equals("Wen")) rd.setWen(ot);
-		else if(dName.equals("Tue")) rd.setTue(ot);
-		else if(dName.equals("Fri")) rd.setFri(ot);
-		else if(dName.equals("Sat")) rd.setSat(ot);
-		else if(dName.equals("Sun")) rd.setSun(ot);
+	void establishAndSetWeekday(double ot, String dName, ResultData rd){
+		if(dName.equals("Mon")) rd.setMon(df.format(ot));
+		else if(dName.equals("Tue")) rd.setTue(df.format(ot));
+		else if(dName.equals("Wen")) rd.setWen(df.format(ot));
+		else if(dName.equals("Tue")) rd.setTue(df.format(ot));
+		else if(dName.equals("Fri")) rd.setFri(df.format(ot));
+		else if(dName.equals("Sat")) rd.setSat(df.format(ot));
+		else if(dName.equals("Sun")) rd.setSun(df.format(ot));
 	}
 }

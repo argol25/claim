@@ -38,7 +38,6 @@
 					<td>${code.fri}</td>
 				</tr>
 			</c:forEach>
-			
 		</tbody>
 	</table>
 	

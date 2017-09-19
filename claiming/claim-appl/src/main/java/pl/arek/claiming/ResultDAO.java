@@ -20,8 +20,16 @@ public class ResultDAO {
 		resData.add(rd);
 	}
 	
+	//pobierz wszystkie dane
 	public List<ResultData> getClaim(){
 		return resData;
 	}
+	
+	//wykasuj zawartość listy
+	public void clearResultData(){
+		resData.clear();
+	}
+	
+	
 	
 }

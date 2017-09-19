@@ -4,7 +4,7 @@ public class ResultData {
 
 	private String WBSel;
 	private String OType;
-	Float sat,sun,mon,tue,wen,thu,fri;
+	String sat,sun,mon,tue,wen,thu,fri;
 	
 	public ResultData() {
 		WBSel = null;
@@ -34,59 +34,59 @@ public class ResultData {
 		return OType;
 	}
 	
-	public void setMon(float mo){
+	public void setMon(String mo){
 		this.mon = mo;
 	}
 	
-	public Float getMon(){
+	public String getMon(){
 		return mon;
 	}
 	
-	public void setTue(float tu){
+	public void setTue(String tu){
 		this.tue = tu;
 	}
 	
-	public Float getTue(){
+	public String getTue(){
 		return tue;
 	}
 	
-	public void setWen(float we){
+	public void setWen(String we){
 		this.wen = we;
 	}
 	
-	public Float getWen(){
+	public String getWen(){
 		return wen;
 	}
 	
-	public void setThu(float th){
+	public void setThu(String th){
 		this.thu = th;
 	}
 	
-	public Float getThu(){
+	public String getThu(){
 		return thu;
 	}
 	
-	public void setFri(float fr){
+	public void setFri(String fr){
 		this.fri = fr;
 	}
 	
-	public Float getFri(){
+	public String getFri(){
 		return fri;
 	}
 	
-	public void setSat(float st){
+	public void setSat(String st){
 		this.sat = st;
 	}
 	
-	public Float getSat(){
+	public String getSat(){
 		return sat;
 	}
 	
-	public void setSun(float su){
+	public void setSun(String su){
 		this.sun = su;
 	}
 	
-	public Float getSun(){
+	public String getSun(){
 		return sun;
 	}
 	
