@@ -10,6 +10,7 @@
 </head>
 <body>
 	<a href="claimresults">Check how to claim</a><br />
+	<a href="listaclaim">Check claim data</a><br />
 	<form:form modelAttribute="claimDto" method="POST">
 		<table border="1">
 			<tbody>
@@ -28,7 +29,7 @@
 						<c:if test="${pageContext.request.method=='POST'}"><form:errors path="accountName"/></c:if>				
 					</td>
 					<td>
-						<form:input path="startTime" id="startTime" placexmlns="for e.g. customer#1"/>
+						<form:input path="startTime" id="startTime" />
 						<c:if test="${pageContext.request.method=='POST'}"><form:errors path="startTime" /></c:if>
 					</td>
 					<td>

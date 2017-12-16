@@ -10,9 +10,6 @@
         <dependent-module archiveName="claim-domain.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/claim-domain/claim-domain">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="claim-appl.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/claim-appl/claim-appl">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="claim-app"/>
         <property name="java-output-path" value="/claim-app/target/classes"/>
     </wb-module>

@@ -1,7 +1,18 @@
-package pl.arek.claiming.domain;
+package pl.arek.claiming.domain.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "finalClaiming")
 public class ResultData {
-
+	
+	@Id
+	@GeneratedValue
+	private Long id;
+	
 	private String WBSel;
 	private String OType;
 	String sat,sun,mon,tue,wen,thu,fri;

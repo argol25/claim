@@ -4,7 +4,6 @@
 	<comment></comment>
 	<projects>
 		<project>claim-domain</project>
-		<project>claim-appl</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

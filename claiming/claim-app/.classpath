@@ -24,11 +24,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry including="applicationContext.xml|web.xml" kind="src" path="src/main/webapp/WEB-INF"/>
-	<classpathentry exported="true" kind="lib" path="/home/arek/Dokumenty/Szkolenia/Java/Biblioteki/joda-time-2.1.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="/home/arek/Dokumenty/Szkolenia/Java/Biblioteki/joda-time-2.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry exported="true" kind="lib" path="/home/arek/Dokumenty/Szkolenia/Java/Tomcat/apache-tomcat-8.5.15/lib/servlet-api.jar">
@@ -47,6 +43,10 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

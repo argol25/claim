@@ -25,7 +25,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${resData}" var="code" varStatus="status" >
+			<c:forEach items="${results}" var="code" varStatus="status" >
 				<tr>
 					<td>${code.WBSel}</td>
 					<td>${code.OType}</td>
