@@ -36,6 +36,7 @@
 					<td>${code.wen}</td>
 					<td>${code.thu}</td>
 					<td>${code.fri}</td>
+					<td>${code.weekNo}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

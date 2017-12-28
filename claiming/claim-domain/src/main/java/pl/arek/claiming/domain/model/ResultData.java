@@ -13,13 +13,15 @@ public class ResultData {
 	@GeneratedValue
 	private Long id;
 	
-	private String WBSel;
-	private String OType;
+	private String wBSel;
+	private String oType;
 	String sat,sun,mon,tue,wen,thu,fri;
+	int weekNo;
+	boolean checked = true;
 	
 	public ResultData() {
-		WBSel = null;
-		OType = null;
+		wBSel = null;
+		oType = null;
 		sat = null;
 		sun = null;
 		mon = null;
@@ -30,19 +32,19 @@ public class ResultData {
 	}
 	
 	public void setWBSel(String wbs){
-		this.WBSel = wbs;
+		this.wBSel = wbs;
 	}
 	
 	public String getWBSel(){
-		return WBSel;		
+		return wBSel;		
 	}
 	
 	public void setOType(String ot){
-		this.OType = ot;
+		this.oType = ot;
 	}
 	
 	public String getOType(){
-		return OType;
+		return oType;
 	}
 	
 	public void setMon(String mo){
@@ -100,5 +102,23 @@ public class ResultData {
 	public String getSun(){
 		return sun;
 	}
+	
+	public int getWeekNo() {
+		return weekNo;
+	}
+
+	public void setWeekNo(int weekNo) {
+		this.weekNo = weekNo;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+	
+	
 	
 }

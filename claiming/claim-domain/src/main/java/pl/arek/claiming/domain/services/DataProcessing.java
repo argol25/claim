@@ -94,8 +94,7 @@ public class DataProcessing {
 		otStartDate = otd;
 		otEndDate = oed;
 		otStartTime = ost;
-		
-		
+
 		// zmniejsza godzinę końcową 00:00, żeby nie spowodować błędów w
 		// wyliczeniach
 		if (oet.equals("00:00")) {
@@ -162,8 +161,7 @@ public class DataProcessing {
 	}
 
 	public void claimDataCount() {
-		
-		//ResultData rd = new ResultData();
+
 		// ile jest w sumie minut różnicy pomiędzy podanymi datami
 		int minDiff = 0;
 
@@ -174,6 +172,7 @@ public class DataProcessing {
 		minDiff = Minutes.minutesBetween(dtStartDate, dtEndDate).getMinutes();
 		otAmountInSummary = (double) minDiff / 60;
 
+		// jeżeli nadgodziny są wykonywane w tym samym dniu
 		if (dayDifference == 0) {
 
 			try {
@@ -209,14 +208,19 @@ public class DataProcessing {
 				// uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT
 				// ses3
 				if (ses30 > 0) {
-					//ResultData rd = new ResultData();
-					
+
 					ResultData rd = new ResultData();
 					rd.setWBSel(cCode);
 					rd.setOType("SES3");
 					establishAndSetWeekday(ses30, day1Name, rd);
+					// ustawia numer dnia tygodnia; jeżeli jest do sobota lub
+					// niedziela dodaje 1 (przestawienie na tryb sobota->piątek
+					if (day1Name.equals("Sat") || day1Name.equals("Sun"))
+						rd.setWeekNo(establisWeekNo(ddtStartDate) + 1);
+					else
+						rd.setWeekNo(establisWeekNo(ddtStartDate));
 					resDataObj.add(rd);
-					
+
 				}
 
 				// uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT
@@ -231,9 +235,9 @@ public class DataProcessing {
 					rd.setWBSel(cCode);
 					rd.setOType("SEOT");
 					establishAndSetWeekday(seot0, day1Name, rd);
+					rd.setWeekNo(establisWeekNo(ddtStartDate));
 					resDataObj.add(rd);
-					
-					
+
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -301,15 +305,23 @@ public class DataProcessing {
 				dayOfWeekNo1 = dtEndDate.getDayOfWeek();
 				day2Name = weekdayNames.get(dayOfWeekNo1);
 
-				// uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT
-				// ses3 dla 1 dnia
+				// uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły
+				// OTses3 dla 1 dnia
 				if (ses30 > 0) {
 					ResultData rd = new ResultData();
 					rd.setWBSel(cCode);
 					rd.setOType("SES3");
 					establishAndSetWeekday(ses30, day1Name, rd);
-					resDataObj.add(rd);
 					
+					// ustawia numer dnia tygodnia; jeżeli jest do sobota lub
+					// niedziela dodaje 1 (przestawienie na tryb sobota->piątek
+					if (day1Name.equals("Sat") || day1Name.equals("Sun"))
+						rd.setWeekNo(establisWeekNo(ddtStartDate) + 1);
+					else
+						rd.setWeekNo(establisWeekNo(ddtStartDate));
+
+					resDataObj.add(rd);
+
 				}
 
 				// uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT
@@ -324,9 +336,15 @@ public class DataProcessing {
 					rd.setWBSel(cCode);
 					rd.setOType("SEOT");
 					establishAndSetWeekday(seot0, day1Name, rd);
+					// ustawia numer dnia tygodnia; jeżeli jest do sobota lub
+					// niedziela dodaje 1 (przestawienie na tryb sobota->piątek
+					if (day1Name.equals("Sat") || day1Name.equals("Sun"))
+						rd.setWeekNo(establisWeekNo(ddtStartDate) + 1);
+					else
+						rd.setWeekNo(establisWeekNo(ddtStartDate));
+					
 					resDataObj.add(rd);
-					
-					
+
 				}
 
 				// uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT
@@ -336,8 +354,14 @@ public class DataProcessing {
 					rd.setWBSel(cCode);
 					rd.setOType("SES3");
 					establishAndSetWeekday(ses31, day2Name, rd);
+					// ustawia numer dnia tygodnia; jeżeli jest do sobota lub
+					// niedziela dodaje 1 (przestawienie na tryb sobota->piątek
+					if (day1Name.equals("Sat") || day1Name.equals("Sun"))
+						rd.setWeekNo(establisWeekNo(ddtStartDate) + 1);
+					else
+						rd.setWeekNo(establisWeekNo(ddtStartDate));
 					resDataObj.add(rd);
-					
+
 				}
 
 				// uzupełnia dane dla rezultatów w przypadku kiedy wystąpiły OT
@@ -352,6 +376,12 @@ public class DataProcessing {
 					rd.setWBSel(cCode);
 					rd.setOType("SEOT");
 					establishAndSetWeekday(seot1, day2Name, rd);
+					// ustawia numer dnia tygodnia; jeżeli jest do sobota lub
+					// niedziela dodaje 1 (przestawienie na tryb sobota->piątek
+					if (day1Name.equals("Sat") || day1Name.equals("Sun"))
+						rd.setWeekNo(establisWeekNo(ddtStartDate) + 1);
+					else
+						rd.setWeekNo(establisWeekNo(ddtStartDate));
 					resDataObj.add(rd);
 				}
 
@@ -360,8 +390,8 @@ public class DataProcessing {
 			}
 		}
 	}
-	
-	public List<ResultData> provideRD(){
+
+	public List<ResultData> provideRD() {
 		return resDataObj;
 	}
 
@@ -383,4 +413,10 @@ public class DataProcessing {
 		else if (dName.equals("Sun"))
 			rd.setSun(df.format(ot));
 	}
+
+	// metoda określająca numer tygodnia (w roku) danego dnia
+	int establisWeekNo(DateTime date) {
+		return date.getWeekOfWeekyear();
+	}
+
 }

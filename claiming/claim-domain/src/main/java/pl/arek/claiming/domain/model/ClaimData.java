@@ -34,6 +34,8 @@ public class ClaimData {
 	private String sb1Day;
 	// ilość godzin stanby'a drugiego dnia
 	private String sb2Day;
+	
+	private boolean alreadyChecked;
 
 	// gettery i settery
 	public String getAccountName() {
@@ -90,6 +92,14 @@ public class ClaimData {
 
 	public void setSb2Day(String sb2Day) {
 		this.sb2Day = sb2Day;
+	}
+	
+	public boolean isAlreadyChecked() {
+		return alreadyChecked;
+	}
+
+	public void setAlreadyChecked(boolean alreadyChecked) {
+		this.alreadyChecked = alreadyChecked;
 	}
 
 	/*

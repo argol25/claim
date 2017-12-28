@@ -4,6 +4,7 @@ package pl.arek.claiming.domain.dao;
 //import java.util.ArrayList;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import pl.arek.claiming.domain.model.ResultData;
@@ -11,9 +12,13 @@ import pl.arek.claiming.domain.model.ResultData;
 //klasa będąca repozytorium przetworzonych danych (rezultatów)
 
 @Repository
-public interface ResultDAO extends CrudRepository<ResultData, Long> {
+public interface ResultDAO extends PagingAndSortingRepository<ResultData, Long> {
 
 	public ResultData findById(Long id);
+	
+	//public ResultData findByIdOrderByWeekNo(Long id);
+	//public ResultData findAllByOrderByWeekNo();
+	
 	// dodaj dane
 	// skasuj dane
 	// zaktualizuj dane??
