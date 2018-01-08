@@ -16,6 +16,7 @@ public interface ResultDAO extends PagingAndSortingRepository<ResultData, Long> 
 
 	public ResultData findById(Long id);
 	
+	
 	//public ResultData findByIdOrderByWeekNo(Long id);
 	//public ResultData findAllByOrderByWeekNo();
 	

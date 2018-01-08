@@ -19,6 +19,7 @@ public class ResultDAOsrv {
 	protected ResultDAO rdao;
 	@Autowired
 	protected ClaimDAOsrv cdaos;
+	
 
 	protected List<ClaimData> claimDataList = new ArrayList<>();
 	protected List<ResultData> resultDataList = new ArrayList<>();
@@ -31,6 +32,8 @@ public class ResultDAOsrv {
 	//static String s = null;
 	//static String sr = null;
 
+	
+	
 	// przetworzenie i dodanie danych
 	public void processData() {
 
